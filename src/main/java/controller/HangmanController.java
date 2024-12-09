@@ -29,6 +29,7 @@ public class HangmanController {
         // Podłączanie akcji do przycisków
         menuView.getStartGameButton().setOnAction(e -> startNewGame());
         menuView.getSettingsButton().setOnAction(e -> displaySettingsMenu());
+        menuView.getStatisticsButton().setOnAction(e -> displayStatistics());
         menuView.getAchievementsButton().setOnAction(e -> displayAchievements());
         menuView.getRulesButton().setOnAction(e -> displayRules());
         menuView.getExitButton().setOnAction(e -> stage.close());
@@ -106,7 +107,6 @@ public class HangmanController {
         settingsView.getGameDurationButton().setOnAction(e -> displayGameDurationSettings());
         settingsView.getWordSourceButton().setOnAction(e -> displayWordSourceSettings());
         settingsView.getSubjectButton().setOnAction(e -> displaySubjectSettings());
-      //  settingsView.getThemeButton().setOnAction(e -> displayThemeSettings());
         settingsView.getBackButton().setOnAction(e -> displayMainMenu());
 
         stage.setScene(settingsView.createScene());
@@ -170,6 +170,22 @@ public class HangmanController {
         wordSourceView.getBackButton().setOnAction(e -> displaySettingsMenu());
 
         stage.setScene(wordSourceView.createScene());
+    }
+    // Wyświetlenie statystyk
+    private void displayStatistics() {
+        StatisticsView statisticsView = new StatisticsView();
+
+        // Pobranie statystyk z modelu
+        int wins = model.getWins();
+        int losses = model.getLosses();
+        int score = model.getScore();
+
+        statisticsView.updateStatistics(wins, losses, score);
+
+        statisticsView.getBackButton().setOnAction(e -> displayMainMenu());
+
+
+        stage.setScene(statisticsView.createScene());
     }
 
     // Wyświetlenie osiągnięć

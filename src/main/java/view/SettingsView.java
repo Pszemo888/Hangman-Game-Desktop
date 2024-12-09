@@ -13,7 +13,6 @@ public class SettingsView {
     private final Button gameDurationButton;
     private final Button wordSourceButton;
     private final Button subjectButton;
-    private final Button themeButton;
     private final Button backButton;
 
     public SettingsView() {
@@ -29,10 +28,10 @@ public class SettingsView {
         gameDurationButton = createStyledButton("Game Duration");
         wordSourceButton = createStyledButton("Word Source");
         subjectButton = createStyledButton("Subject");
-        themeButton = createStyledButton("Theme");
+
         backButton = createStyledButton("Back");
 
-        layout.getChildren().addAll(title, difficultyButton, gameDurationButton, wordSourceButton, subjectButton, themeButton, backButton);
+        layout.getChildren().addAll(title, difficultyButton, gameDurationButton, wordSourceButton, subjectButton, backButton);
     }
 
     public Scene createScene() {
@@ -61,10 +60,6 @@ public class SettingsView {
 
     public Button getSubjectButton() {
         return subjectButton;
-    }
-
-    public Button getThemeButton() {
-        return themeButton;
     }
 
     public Button getBackButton() {

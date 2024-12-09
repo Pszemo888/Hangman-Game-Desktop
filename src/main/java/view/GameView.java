@@ -20,11 +20,13 @@ public class GameView {
     private Label timerLabel;
     private Label hintsLabel;
     private Button backButton;
+    private Button hintButton; // Dodajemy przycisk podpowiedzi
 
     public GameView(HangmanModel model, Stage stage) {
         this.model = model;
         this.stage = stage;
         this.backButton = new Button("Back to Menu");
+        this.hintButton = new Button("Use Hint"); // Inicjalizacja przycisku podpowiedzi
     }
 
     public Scene createScene() {
@@ -38,7 +40,9 @@ public class GameView {
 
         GridPane letterButtons = createLetterButtons();
 
-        layout.getChildren().addAll(wordLabel, attemptsLabel, scoreLabel, timerLabel, hintsLabel, letterButtons, backButton);
+        layout.getChildren().addAll(wordLabel, attemptsLabel, scoreLabel, timerLabel, hintsLabel, hintButton, letterButtons, backButton);
+
+        hintButton.setOnAction(e -> handleHint()); // Obsługa użycia podpowiedzi
 
         Scene scene = new Scene(layout, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
@@ -50,7 +54,7 @@ public class GameView {
         int col = 0, row = 0;
 
         for (char letter = 'A'; letter <= 'Z'; letter++) {
-            final char currentLetter = letter; // Tworzymy kopię finalną
+            final char currentLetter = letter;
             Button letterButton = new Button(String.valueOf(letter));
             letterButton.setOnAction(e -> handleGuess(letterButton, currentLetter));
             grid.add(letterButton, col, row);
@@ -64,8 +68,9 @@ public class GameView {
     }
 
     private void handleGuess(Button letterButton, char letter) {
-        boolean correct = model.guessLetter(letter);
+        boolean gameEnded = model.processGuess(letter); // Użycie processGuess
         letterButton.setDisable(true);
+
         updateGameState(
                 model.getWordDisplay(),
                 model.getAttemptsLeft(),
@@ -76,11 +81,28 @@ public class GameView {
                 model.getMaxHints()
         );
 
-        if (model.isGameOver()) {
+        if (gameEnded) {
             String message = model.isWordGuessed() ?
                     "Congratulations! You guessed the word: " + model.getWordToGuess() :
                     "Game Over! The word was: " + model.getWordToGuess();
             showEndGameDialog(message);
+        }
+    }
+
+    private void handleHint() {
+        Character hintLetter = model.useHint();
+        if (hintLetter != null) {
+            updateGameState(
+                    model.getWordDisplay(),
+                    model.getAttemptsLeft(),
+                    model.getScore(),
+                    model.getWrongGuesses(),
+                    model.getRemainingTime(),
+                    model.getHintCount(),
+                    model.getMaxHints()
+            );
+        } else {
+            System.out.println("No more hints available or not enough attempts left.");
         }
     }
 
