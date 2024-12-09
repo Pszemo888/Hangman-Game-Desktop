@@ -1,3 +1,4 @@
+
 package controller;
 
 import javafx.application.Platform;
@@ -10,6 +11,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import view.settings.SubjectView;
 import view.settings.WordSourceView;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 public class HangmanController {
     private final HangmanModel model;
@@ -40,23 +45,28 @@ public class HangmanController {
     // Rozpoczęcie nowej gry
     public void startNewGame() {
         model.resetGame();
-        GameView gameView = new GameView(stage);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameView.fxml"));
+            Parent root = loader.load();
+            GameView gameView = loader.getController();
 
-        // Ustawienie akcji dla liter od A do Z
-        setupLetterButtonActions(gameView);
-        setupHintButtonAction(gameView);
+            // Ustawienie akcji dla liter od A do Z
+            setupLetterButtonActions(gameView);
+            setupHintButtonAction(gameView);
 
-        gameView.getBackButton().setOnAction(e -> stopGameAndReturnToMenu());
+            gameView.getBackButton().setOnAction(e -> stopGameAndReturnToMenu());
 
-        stage.setScene(gameView.createScene());
-        updateGameState(gameView);
-        startDisplayTimer(gameView);
+            stage.setScene(new Scene(root, 1000, 600));
+            updateGameState(gameView);
+            startDisplayTimer(gameView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     //Timer
     private void setupLetterButtonActions(GameView gameView) {
         for (char letter = 'A'; letter <= 'Z'; letter++) {
             char currentLetter = letter;
-            System.out.println("Podłączanie akcji do litery: " + currentLetter); // Debugowanie
             gameView.setLetterButtonAction(currentLetter, () -> handleGuess(gameView, currentLetter));
         }
     }
@@ -68,7 +78,6 @@ public class HangmanController {
 
     // Obsługa odgadywania litery
     private void handleGuess(GameView gameView, char letter) {
-        System.out.println("Naciśnięto literę: " + letter); // Debugowanie
         boolean gameEnded = model.processGuess(letter);
         updateGameState(gameView);
 

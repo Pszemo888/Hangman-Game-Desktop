@@ -27,7 +27,7 @@ public class StatisticsView {
         layout.getChildren().addAll(statisticsLabel, backButton);
 
         // Tworzenie sceny i ładowanie arkusza stylów CSS
-        scene = new Scene(layout, 600, 400);
+        scene = new Scene(layout, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
     }
 
