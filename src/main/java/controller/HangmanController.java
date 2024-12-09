@@ -40,32 +40,70 @@ public class HangmanController {
     // Rozpoczęcie nowej gry
     public void startNewGame() {
         model.resetGame();
-        GameView gameView = new GameView(model, stage);
+        GameView gameView = new GameView(stage);
 
+        // Ustawienie akcji dla liter od A do Z
+        setupLetterButtonActions(gameView);
+        setupHintButtonAction(gameView);
 
         gameView.getBackButton().setOnAction(e -> stopGameAndReturnToMenu());
 
         stage.setScene(gameView.createScene());
+        updateGameState(gameView);
         startDisplayTimer(gameView);
     }
     //Timer
+    private void setupLetterButtonActions(GameView gameView) {
+        for (char letter = 'A'; letter <= 'Z'; letter++) {
+            char currentLetter = letter;
+            System.out.println("Podłączanie akcji do litery: " + currentLetter); // Debugowanie
+            gameView.setLetterButtonAction(currentLetter, () -> handleGuess(gameView, currentLetter));
+        }
+    }
+
+    // Podłączanie akcji do przycisku podpowiedzi
+    private void setupHintButtonAction(GameView gameView) {
+        gameView.setHintButtonAction(() -> handleHint(gameView));
+    }
+
+    // Obsługa odgadywania litery
+    private void handleGuess(GameView gameView, char letter) {
+        System.out.println("Naciśnięto literę: " + letter); // Debugowanie
+        boolean gameEnded = model.processGuess(letter);
+        updateGameState(gameView);
+
+        if (gameEnded) {
+            endGame();
+        }
+    }
+
+    // Obsługa użycia podpowiedzi
+    private void handleHint(GameView gameView) {
+        model.useHint();
+        updateGameState(gameView);
+    }
+
+    // Aktualizacja stanu gry w widoku
+    private void updateGameState(GameView gameView) {
+        gameView.updateGameState(
+                model.getWordDisplay(),
+                model.getAttemptsLeft(),
+                model.getScore(),
+                model.getWrongGuesses(),
+                model.getRemainingTime(),
+                model.getHintCount(),
+                model.getMaxHints()
+        );
+    }
+
+    // Timer do odświeżania stanu gry
     private void startDisplayTimer(GameView gameView) {
         displayTimer = new Timer();
         displayTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-
-                    gameView.updateGameState(
-                            model.getWordDisplay(),
-                            model.getAttemptsLeft(),
-                            model.getScore(),
-                            model.getWrongGuesses(),
-                            model.getRemainingTime(),
-                            model.getHintCount(),
-                            model.getMaxHints()
-                    );
-
+                    updateGameState(gameView);
 
                     if (model.isGameOver() || model.isTimeUp()) {
                         stopDisplayTimer();
@@ -83,11 +121,13 @@ public class HangmanController {
         }
     }
 
+    // Powrót do menu głównego
     private void stopGameAndReturnToMenu() {
         stopDisplayTimer();
         displayMainMenu();
     }
 
+    // Zakończenie gry
     private void endGame() {
         Platform.runLater(() -> {
             String message = model.isWordGuessed() ?
@@ -97,6 +137,7 @@ public class HangmanController {
             stopGameAndReturnToMenu();
         });
     }
+
 
     // Wyświetlenie menu ustawień
     public void displaySettingsMenu() {
@@ -261,6 +302,4 @@ public class HangmanController {
 
         stage.setScene(subjectView.createScene());
     }
-    // Opcje motywu
-
 }

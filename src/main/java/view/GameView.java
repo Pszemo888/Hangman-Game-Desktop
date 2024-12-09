@@ -6,12 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.HangmanModel;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class GameView {
-    private final HangmanModel model;
     private final Stage stage;
 
     private Label wordLabel;
@@ -20,90 +19,72 @@ public class GameView {
     private Label timerLabel;
     private Label hintsLabel;
     private Button backButton;
-    private Button hintButton; // Dodajemy przycisk podpowiedzi
+    private Button hintButton;
 
-    public GameView(HangmanModel model, Stage stage) {
-        this.model = model;
+    private List<Button> letterButtons;
+
+    public GameView(Stage stage) {
         this.stage = stage;
         this.backButton = new Button("Back to Menu");
-        this.hintButton = new Button("Use Hint"); // Inicjalizacja przycisku podpowiedzi
+        this.hintButton = new Button("Use Hint");
+        this.letterButtons = new ArrayList<>();
+
+
+        createLetterButtons();
     }
 
     public Scene createScene() {
         VBox layout = new VBox(10);
 
-        wordLabel = new Label(model.getWordDisplay());
-        attemptsLabel = new Label("Attempts left: " + model.getAttemptsLeft());
-        scoreLabel = new Label("Score: " + model.getScore());
-        timerLabel = new Label("Time left: " + model.getRemainingTime() + "s");
-        hintsLabel = new Label("Hints used: " + model.getHintCount() + "/" + model.getMaxHints());
+        wordLabel = new Label();
+        attemptsLabel = new Label();
+        scoreLabel = new Label();
+        timerLabel = new Label();
+        hintsLabel = new Label();
 
-        GridPane letterButtons = createLetterButtons();
-
-        layout.getChildren().addAll(wordLabel, attemptsLabel, scoreLabel, timerLabel, hintsLabel, hintButton, letterButtons, backButton);
-
-        hintButton.setOnAction(e -> handleHint()); // Obsługa użycia podpowiedzi
-
-        Scene scene = new Scene(layout, 1000, 600);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-        return scene;
-    }
-
-    private GridPane createLetterButtons() {
-        GridPane grid = new GridPane();
+        GridPane letterButtonsGrid = new GridPane();
         int col = 0, row = 0;
-
-        for (char letter = 'A'; letter <= 'Z'; letter++) {
-            final char currentLetter = letter;
-            Button letterButton = new Button(String.valueOf(letter));
-            letterButton.setOnAction(e -> handleGuess(letterButton, currentLetter));
-            grid.add(letterButton, col, row);
+        for (Button letterButton : letterButtons) {
+            letterButtonsGrid.add(letterButton, col, row);
             col++;
             if (col > 6) {
                 col = 0;
                 row++;
             }
         }
-        return grid;
+
+        layout.getChildren().addAll(wordLabel, attemptsLabel, scoreLabel, timerLabel, hintsLabel, hintButton, letterButtonsGrid, backButton);
+
+        Scene scene = new Scene(layout, 1000, 600);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        return scene;
     }
 
-    private void handleGuess(Button letterButton, char letter) {
-        boolean gameEnded = model.processGuess(letter); // Użycie processGuess
-        letterButton.setDisable(true);
-
-        updateGameState(
-                model.getWordDisplay(),
-                model.getAttemptsLeft(),
-                model.getScore(),
-                model.getWrongGuesses(),
-                model.getRemainingTime(),
-                model.getHintCount(),
-                model.getMaxHints()
-        );
-
-        if (gameEnded) {
-            String message = model.isWordGuessed() ?
-                    "Congratulations! You guessed the word: " + model.getWordToGuess() :
-                    "Game Over! The word was: " + model.getWordToGuess();
-            showEndGameDialog(message);
+    private void createLetterButtons() {
+        for (char letter = 'A'; letter <= 'Z'; letter++) {
+            Button letterButton = new Button(String.valueOf(letter));
+            letterButtons.add(letterButton);
         }
     }
 
-    private void handleHint() {
-        Character hintLetter = model.useHint();
-        if (hintLetter != null) {
-            updateGameState(
-                    model.getWordDisplay(),
-                    model.getAttemptsLeft(),
-                    model.getScore(),
-                    model.getWrongGuesses(),
-                    model.getRemainingTime(),
-                    model.getHintCount(),
-                    model.getMaxHints()
-            );
-        } else {
-            System.out.println("No more hints available or not enough attempts left.");
+
+    public List<Button> getLetterButtons() {
+        return letterButtons;
+    }
+
+    public void setLetterButtonAction(char letter, Runnable action) {
+        for (Button button : letterButtons) {
+            if (button.getText().equals(String.valueOf(letter))) {
+                button.setOnAction(e -> {
+                    button.setDisable(true);
+                    action.run();
+                });
+            }
         }
+    }
+
+    public void setHintButtonAction(Runnable action) {
+        hintButton.setOnAction(e -> action.run());
     }
 
     public void updateGameState(String wordDisplay, int attemptsLeft, int score,
@@ -118,10 +99,5 @@ public class GameView {
 
     public Button getBackButton() {
         return backButton;
-    }
-
-    public void showEndGameDialog(String message) {
-        System.out.println(message); // Możesz zamienić to na rzeczywisty dialog np. Alert
-        backButton.fire(); // Automatycznie powrót do menu
     }
 }
