@@ -10,12 +10,14 @@
 4. **Zasoby** – pliki ze słowami dla różnych kategorii (np. `words.txt`, `animals.txt`, `technology.txt`).
 5. **Style CSS** – style dla interfejsu użytkownika.
 
-#  Funkcjonalnosci gry
 
+#  Funkcjonalnosci gry
 ##  Rozpoczęcie gry
 - Zgadywanie liter przez kliknięcie przycisków **A-Z**.
 - Możliwość użycia podpowiedzi (**Use Hint**), która odsłania losową literę w słowie.
 - Liczba prób zależy od wybranego poziomu trudności.
+- Podpowiedzi
+- Timer
 
 ##  Ustawienia gry
 
