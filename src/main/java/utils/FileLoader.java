@@ -19,12 +19,12 @@ public class FileLoader {
 
             if (inputStream == null) {
                 System.out.println("Plik " + filePath + " nie został znaleziony w zasobach!");
-                return List.of(); // Zwróć pustą listę, jeśli plik nie został znaleziony
+                return List.of();
             }
 
             System.out.println("Plik " + filePath + " został znaleziony, rozpoczynam wczytywanie...");
 
-            // Wczytujemy linie i konwertujemy każdą na wielkie litery
+
             List<String> words = reader.lines()
                     .map(String::toUpperCase)
                     .collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class FileLoader {
         } catch (Exception e) {
             System.out.println("Błąd podczas wczytywania pliku " + filePath + ": " + e.getMessage());
             e.printStackTrace();
-            return List.of(); // Zwróć pustą listę, jeśli wystąpi błąd
+            return List.of();
         }
     }
     public List<String> loadWordsFromFile(String fileName) throws IOException {
@@ -52,10 +52,9 @@ public class FileLoader {
     }
 
     public void saveCustomWords(List<String> customWords, String fileName) throws IOException {
-        // Otwieramy plik do zapisu
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             for (String word : customWords) {
-                // Sprawdzamy, czy słowo nie jest puste ani nie składa się wyłącznie z białych znaków
                 if (word != null && !word.trim().isEmpty()) {
                     writer.write(word.toUpperCase());
                     writer.newLine();

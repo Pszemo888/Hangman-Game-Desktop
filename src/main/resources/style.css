@@ -1,132 +1,89 @@
-/* Background color for the entire window */
+/* ===== Global Styles ===== */
 .root {
-    -fx-background-color: #F4F4F4; /* Light gray background */
-}
-
-/* Style for the title */
-/* Layout background */
-.settings-layout {
-    -fx-background-color: #fafafa; /* Light background */
+    -fx-background-color: #f0f8ff; /* Jasnoniebieskie tło */
     -fx-padding: 20px;
-    -fx-spacing: 15px;
+    -fx-font-family: 'Roboto', sans-serif; /* Globalna czcionka */
 }
 
-/* Title styling */
-.settings-title {
-    -fx-font-size: 24px;
+/* ===== Layout Styles ===== */
+.settings-layout, .menu-layout, .rules-layout {
+    -fx-background-color: #f0f8ff; /* Jasnoniebieskie tło */
+    -fx-padding: 40px;
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+}
+
+/* ===== Title Styles ===== */
+.settings-title, .menu-title, .title-label {
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333; /* Darker text */
+    -fx-text-fill: #333; /* Ciemnoszary tekst */
+    -fx-padding-bottom: 20px;
+    -fx-underline: true;
 }
 
-/* Button styling */
-.settings-button {
-    -fx-font-size: 16px;
-    -fx-padding: 8px 16px;
-    -fx-background-color: #FF5722; /* Orange */
+/* Menu-specific title style */
+.menu-title {
+    -fx-font-size: 48px;
+    -fx-text-fill: #FF5722; /* Pomarańczowy kolor */
+    -fx-font-family: "Impact", "Arial Black", sans-serif;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 10, 0.5, 2, 2); /* Cień */
+}
+
+/* ===== Button Styles ===== */
+.settings-button, .menu-button, .back-button {
+    -fx-font-size: 18px;
+    -fx-background-color: #4682b4; /* Stalowy niebieski */
     -fx-text-fill: white;
-    -fx-background-radius: 8px;
-    -fx-border-color: #E64A19;
-    -fx-border-width: 1px;
-    -fx-border-radius: 8px;
+    -fx-padding: 10px 30px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
     -fx-cursor: hand;
 }
 
-/* Button hover effect */
-.settings-button:hover {
-    -fx-background-color: #E64A19;
-    -fx-border-color: #D84315;
+/* Hover Effect for Buttons */
+.settings-button:hover, .menu-button:hover, .back-button:hover {
+    -fx-background-color: #5a9bd4; /* Jaśniejszy niebieski */
 }
 
-/* Button pressed effect */
-.settings-button:pressed {
-    -fx-background-color: #D84315;
+/* Pressed Effect for Buttons */
+.settings-button:pressed, .menu-button:pressed, .back-button:pressed {
+    -fx-background-color: #D84315; /* Ciemniejszy pomarańczowy */
 }
 
-/* Custom duration field */
+/* ===== Custom Duration Field ===== */
 .custom-duration-field {
+    -fx-font-size: 16px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* ===== Dialog Pane Styles ===== */
+.dialog-pane {
+    -fx-background-color: #f0f8ff;
+    -fx-font-family: 'Roboto', sans-serif;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #4682b4;
+    -fx-text-fill: white;
     -fx-font-size: 14px;
-    -fx-padding: 5px 10px;
-    -fx-background-color: #ffffff; /* White background */
-    -fx-border-color: #ccc; /* Light border */
-    -fx-border-radius: 5px;
-    -fx-pref-width: 200px; /* Adjust field width */
-}
-/* Layout for the menu */
-.menu-layout {
-    -fx-background-color: #f5f5f5; /* Light gray background */
-    -fx-padding: 20px;
 }
 
-/* Title styling */
-.menu-title {
-    -fx-font-size: 48px; /* Larger font size for prominence */
-    -fx-font-weight: bold; /* Bold text */
-    -fx-text-fill: #FF5722; /* Vibrant orange text color */
-    -fx-padding: 20px;
-    -fx-underline: true; /* Underline the title */
-    -fx-font-family: "Impact", "Arial Black", sans-serif; /* Game-like font */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 10, 0.5, 2, 2); /* Shadow effect */
-}
-
-
-/* Button styling */
-.menu-button {
-    -fx-font-size: 18px; /* Medium font size */
-    -fx-padding: 10px 20px;
-    -fx-background-color: #FF5722; /* Orange background */
-    -fx-text-fill: white; /* White text */
-    -fx-background-radius: 10px; /* Rounded corners */
-    -fx-border-radius: 10px; /* Border matches the rounded corners */
-    -fx-border-width: 2px;
-    -fx-border-color: transparent; /* Transparent border initially */
-}
-
-/* Button hover effect */
-.menu-button:hover {
-    -fx-background-color: #E64A19; /* Darker orange on hover */
-    -fx-border-color: #FFAB91; /* Light orange border */
-}
-
-/* Button press effect */
-.menu-button:pressed {
-    -fx-background-color: #D84315; /* Even darker orange when pressed */
-    -fx-border-color: #FFCCBC; /* Lighter orange border */
-}
-.title-label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #FF5722; /* Orange color */
-    -fx-underline: true;
-    -fx-padding: 10px 0;
-}
-
-.rules-content {
-    -fx-font-size: 14px;
-    -fx-text-fill: #333333; /* Dark text */
-    -fx-line-spacing: 5px;
-}
-
-.rules-layout {
-    -fx-background-color: #f4f4f4; /* Light gray background */
-    -fx-padding: 20px;
-}
-
+/* ===== ScrollPane Styles ===== */
 .scroll-pane {
-    -fx-background-color: #ffffff; /* White background */
-    -fx-border-color: #cccccc; /* Light border */
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
     -fx-padding: 10px;
 }
 
-.back-button {
-    -fx-font-size: 16px;
-    -fx-padding: 10px 20px;
-    -fx-background-color: #FF5722; /* Orange button */
-    -fx-text-fill: white;
-    -fx-background-radius: 8px;
-}
-
-.back-button:hover {
-    -fx-background-color: #E64A19; /* Darker orange on hover */
+/* ===== Rules Content Styles ===== */
+.rules-content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-line-spacing: 5px;
 }

@@ -19,7 +19,6 @@ public class MenuView {
     public MenuView(Stage stage) {
         this.stage = stage;
 
-        // Create buttons
         startGameButton = new Button("Start Game");
         settingsButton = new Button("Settings");
         statisticsButton = new Button("Statistics");
@@ -27,7 +26,6 @@ public class MenuView {
         rulesButton = new Button("Rules");
         exitButton = new Button("Exit");
 
-        // Apply CSS classes to buttons
         startGameButton.getStyleClass().add("menu-button");
         settingsButton.getStyleClass().add("menu-button");
         statisticsButton.getStyleClass().add("menu-button");
@@ -37,22 +35,22 @@ public class MenuView {
     }
 
     public Scene createScene() {
-        VBox layout = new VBox(20); // Spacing between elements
-        layout.setAlignment(Pos.CENTER); // Center the elements
-        layout.getStyleClass().add("menu-layout"); // CSS class for the main layout
+        VBox layout = new VBox(20);
+        layout.setAlignment(Pos.CENTER);
+        layout.getStyleClass().add("menu-layout");
 
-        // Title
+
         Label title = new Label("Hangman");
-        title.getStyleClass().add("menu-title"); // CSS class for the title
+        title.getStyleClass().add("menu-title");
 
         layout.getChildren().addAll(title, startGameButton, settingsButton, statisticsButton, achievementsButton, rulesButton, exitButton);
 
         Scene scene = new Scene(layout, 1000, 600);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm()); // Add CSS
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         return scene;
     }
 
-    // Getters for buttons
+
     public Button getStartGameButton() {
         return startGameButton;
     }

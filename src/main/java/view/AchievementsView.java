@@ -17,11 +17,11 @@ public class AchievementsView {
     public Scene createScene() {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(achievementsLabel, backButton);
-        return new Scene(layout, 400, 300);
+        return new Scene(layout, 1000, 600);
     }
 
     public void updateAchievements(String... achievements) {
-        achievementsLabel.setText("Achievements:\n" + String.join("\n", achievements));
+        achievementsLabel.setText("Soon...");
     }
 
     public Button getBackButton() {

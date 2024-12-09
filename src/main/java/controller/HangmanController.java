@@ -9,6 +9,7 @@ import view.settings.DifficultyView;
 import java.util.Timer;
 import java.util.TimerTask;
 import view.settings.SubjectView;
+import view.settings.WordSourceView;
 
 public class HangmanController {
     private final HangmanModel model;
@@ -40,20 +41,20 @@ public class HangmanController {
         model.resetGame();
         GameView gameView = new GameView(model, stage);
 
-        // Obsługa powrotu do menu
+
         gameView.getBackButton().setOnAction(e -> stopGameAndReturnToMenu());
 
         stage.setScene(gameView.createScene());
         startDisplayTimer(gameView);
     }
-
+    //Timer
     private void startDisplayTimer(GameView gameView) {
         displayTimer = new Timer();
         displayTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    // Aktualizacja widoku gry
+
                     gameView.updateGameState(
                             model.getWordDisplay(),
                             model.getAttemptsLeft(),
@@ -64,7 +65,7 @@ public class HangmanController {
                             model.getMaxHints()
                     );
 
-                    // Sprawdzanie końca gry
+
                     if (model.isGameOver() || model.isTimeUp()) {
                         stopDisplayTimer();
                         endGame();
@@ -96,14 +97,14 @@ public class HangmanController {
         });
     }
 
-    // Wyświetlenie ustawień
+    // Wyświetlenie menu ustawień
     public void displaySettingsMenu() {
         SettingsView settingsView = new SettingsView();
 
 
         settingsView.getDifficultyButton().setOnAction(e -> displayDifficultySettings());
         settingsView.getGameDurationButton().setOnAction(e -> displayGameDurationSettings());
-       // settingsView.getWordSourceButton().setOnAction(e -> displayWordSourceSettings());
+        settingsView.getWordSourceButton().setOnAction(e -> displayWordSourceSettings());
         settingsView.getSubjectButton().setOnAction(e -> displaySubjectSettings());
       //  settingsView.getThemeButton().setOnAction(e -> displayThemeSettings());
         settingsView.getBackButton().setOnAction(e -> displayMainMenu());
@@ -131,7 +132,6 @@ public class HangmanController {
             System.out.println("Game duration set to 90 seconds");
         });
 
-        // Opcja "Custom"
         durationView.getCustomDurationButton().setOnAction(e -> {
             try {
                 int customDuration = Integer.parseInt(durationView.getCustomDurationField().getText());
@@ -144,10 +144,32 @@ public class HangmanController {
             }
         });
 
-        // Powrót do menu ustawień
         durationView.getBackButton().setOnAction(e -> displaySettingsMenu());
 
         stage.setScene(durationView.createScene());
+    }
+    private void displayWordSourceSettings() {
+        WordSourceView wordSourceView = new WordSourceView();
+
+        // Wczytanie słów z pliku
+        wordSourceView.getLoadFileButton().setOnAction(e -> {
+            fileController.loadWordsFromFile();
+        });
+
+        // Tworzenie nowego pliku z własnymi słowami
+        wordSourceView.getCreateFileButton().setOnAction(e -> {
+            fileController.createNewWordFile();
+        });
+
+        // Dodanie niestandardowych słów do istniejącego pliku
+        wordSourceView.getAddWordsButton().setOnAction(e -> {
+            fileController.addCustomWords();
+        });
+
+        // Powrót do menu ustawień
+        wordSourceView.getBackButton().setOnAction(e -> displaySettingsMenu());
+
+        stage.setScene(wordSourceView.createScene());
     }
 
     // Wyświetlenie osiągnięć
@@ -173,7 +195,6 @@ public class HangmanController {
     private void displayDifficultySettings() {
         DifficultyView difficultyView = new DifficultyView();
 
-        // Obsługa wyboru poziomu trudności
         difficultyView.getEasyButton().setOnAction(e -> {
             model.setDifficulty(8);
             System.out.println("Difficulty set to Easy (8 attempts)");

@@ -36,14 +36,14 @@ public class SettingsView {
     }
 
     public Scene createScene() {
-        Scene scene = new Scene(layout, 1000, 600); // Set window size
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm()); // Load CSS file
+        Scene scene = new Scene(layout, 1000, 600);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         return scene;
     }
 
     private Button createStyledButton(String text) {
         Button button = new Button(text);
-        button.getStyleClass().add("settings-button"); // Add CSS class for buttons
+        button.getStyleClass().add("settings-button");
         return button;
     }
 

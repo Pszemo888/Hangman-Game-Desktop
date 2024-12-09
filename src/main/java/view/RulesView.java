@@ -14,15 +14,15 @@ public class RulesView {
     private final ScrollPane scrollPane;
 
     public RulesView() {
-        // Back button
+
         backButton = new Button("Back");
         backButton.getStyleClass().add("back-button");
 
-        // Title
+
         titleLabel = new Label("Game Rules");
         titleLabel.getStyleClass().add("title-label");
 
-        // Rules content
+
         String rulesContent = String.join("\n",
                 "1. The goal is to guess the hidden word letter by letter.",
                 "2. You have a limited number of attempts to guess the entire word.",

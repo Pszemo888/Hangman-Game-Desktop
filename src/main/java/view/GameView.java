@@ -24,7 +24,7 @@ public class GameView {
     public GameView(HangmanModel model, Stage stage) {
         this.model = model;
         this.stage = stage;
-        this.backButton = new Button("Back to Menu"); // Inicjalizacja przycisku w konstruktorze
+        this.backButton = new Button("Back to Menu");
     }
 
     public Scene createScene() {
@@ -40,8 +40,8 @@ public class GameView {
 
         layout.getChildren().addAll(wordLabel, attemptsLabel, scoreLabel, timerLabel, hintsLabel, letterButtons, backButton);
 
-        Scene scene = new Scene(layout, 1000, 600); // Tworzenie sceny
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm()); // Załadowanie pliku CSS
+        Scene scene = new Scene(layout, 1000, 600);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         return scene;
     }
 
@@ -65,7 +65,7 @@ public class GameView {
 
     private void handleGuess(Button letterButton, char letter) {
         boolean correct = model.guessLetter(letter);
-        letterButton.setDisable(true); // Wyłącz przycisk po kliknięciu
+        letterButton.setDisable(true);
         updateGameState(
                 model.getWordDisplay(),
                 model.getAttemptsLeft(),

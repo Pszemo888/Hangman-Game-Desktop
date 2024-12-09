@@ -3,6 +3,7 @@ package view.settings;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class DifficultyView {
@@ -16,18 +17,33 @@ public class DifficultyView {
     public DifficultyView() {
         layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
+        layout.getStyleClass().add("settings-layout");
 
-        easyButton = new Button("Easy");
-        mediumButton = new Button("Medium");
-        hardButton = new Button("Hard");
-        extremeButton = new Button("Extreme");
-        backButton = new Button("Back");
+        Label title = new Label("Select Difficulty Level");
+        title.getStyleClass().add("settings-title");
 
-        layout.getChildren().addAll(easyButton, mediumButton, hardButton, extremeButton, backButton);
+
+        easyButton = createStyledButton("Easy");
+        mediumButton = createStyledButton("Medium");
+        hardButton = createStyledButton("Hard");
+        extremeButton = createStyledButton("Extreme");
+        backButton = createStyledButton("Back");
+
+
+        layout.getChildren().addAll(title, easyButton, mediumButton, hardButton, extremeButton, backButton);
     }
 
     public Scene createScene() {
-        return new Scene(layout, 1000, 600);
+        Scene scene = new Scene(layout, 1000, 600); // Ustawienie rozmiaru okna
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm()); // Załadowanie pliku CSS
+        return scene;
+    }
+
+    // Metoda pomocnicza do tworzenia przycisków ze stylem
+    private Button createStyledButton(String text) {
+        Button button = new Button(text);
+        button.getStyleClass().add("settings-button");
+        return button;
     }
 
     public Button getEasyButton() {

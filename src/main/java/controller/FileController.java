@@ -25,7 +25,7 @@ public class FileController {
         Optional<String> fileNameOpt = promptForTextInput("Enter the file name (e.g., words.txt):");
         if (fileNameOpt.isEmpty()) {
             showAlert("Operation canceled.");
-            return; // Operacja anulowana
+            return;
         }
 
         String fileName = fileNameOpt.get();
@@ -64,7 +64,7 @@ public class FileController {
                 .collect(Collectors.toList());
 
         try {
-            fileLoader.saveCustomWords(customWords, "WordSource/custom_words.txt");
+            fileLoader.saveCustomWords(customWords, "custom_words.txt");
             model.updateWords(customWords);
             showAlert("Added custom words: " + customWords);
         } catch (IOException e) {

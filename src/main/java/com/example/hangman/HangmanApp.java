@@ -19,12 +19,6 @@ public class HangmanApp extends Application {
         FileLoader fileLoader = new FileLoader(filePath);
         List<String> words = fileLoader.loadWords();
 
-
-        if (words.isEmpty()) {
-            words = List.of("JAVA", "PROGRAMMING", "DEVELOPER", "SOFTWARE", "DEBUG", "COMPILE");
-            System.out.println("Using default word list due to error loading file.");
-        }
-
         HangmanModel model = new HangmanModel(words);
 
         HangmanController menuController = new HangmanController(model, stage);
