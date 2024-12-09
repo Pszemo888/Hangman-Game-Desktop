@@ -16,14 +16,14 @@ public class SettingsView {
     private final Button backButton;
 
     public SettingsView() {
-        layout = new VBox(15); // Spacing between elements
-        layout.setAlignment(Pos.CENTER); // Center alignment
-        layout.getStyleClass().add("settings-layout"); // CSS class for layout
+        layout = new VBox(15);
+        layout.setAlignment(Pos.CENTER);
+        layout.getStyleClass().add("settings-layout");
 
         Label title = new Label("Settings");
-        title.getStyleClass().add("settings-title"); // CSS class for title
+        title.getStyleClass().add("settings-title");
 
-        // Buttons with uniform CSS class
+
         difficultyButton = createStyledButton("Difficulty");
         gameDurationButton = createStyledButton("Game Duration");
         wordSourceButton = createStyledButton("Word Source");

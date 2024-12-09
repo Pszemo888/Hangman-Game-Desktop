@@ -48,38 +48,38 @@ public class HangmanController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameView.fxml"));
             Parent root = loader.load();
-            GameView gameView = loader.getController();
+            GameViewController gameViewController = loader.getController();
 
             // Ustawienie akcji dla liter od A do Z
-            setupLetterButtonActions(gameView);
-            setupHintButtonAction(gameView);
+            setupLetterButtonActions(gameViewController);
+            setupHintButtonAction(gameViewController);
 
-            gameView.getBackButton().setOnAction(e -> stopGameAndReturnToMenu());
+            gameViewController.getBackButton().setOnAction(e -> stopGameAndReturnToMenu());
 
-            stage.setScene(new Scene(root, 1000, 600));
-            updateGameState(gameView);
-            startDisplayTimer(gameView);
+            stage.setScene(new Scene(root, 1000, 650));
+            updateGameState(gameViewController);
+            startDisplayTimer(gameViewController);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     //Timer
-    private void setupLetterButtonActions(GameView gameView) {
+    private void setupLetterButtonActions(GameViewController gameViewController) {
         for (char letter = 'A'; letter <= 'Z'; letter++) {
             char currentLetter = letter;
-            gameView.setLetterButtonAction(currentLetter, () -> handleGuess(gameView, currentLetter));
+            gameViewController.setLetterButtonAction(currentLetter, () -> handleGuess(gameViewController, currentLetter));
         }
     }
 
     // Podłączanie akcji do przycisku podpowiedzi
-    private void setupHintButtonAction(GameView gameView) {
-        gameView.setHintButtonAction(() -> handleHint(gameView));
+    private void setupHintButtonAction(GameViewController gameViewController) {
+        gameViewController.setHintButtonAction(() -> handleHint(gameViewController));
     }
 
     // Obsługa odgadywania litery
-    private void handleGuess(GameView gameView, char letter) {
+    private void handleGuess(GameViewController gameViewController, char letter) {
         boolean gameEnded = model.processGuess(letter);
-        updateGameState(gameView);
+        updateGameState(gameViewController);
 
         if (gameEnded) {
             endGame();
@@ -87,14 +87,14 @@ public class HangmanController {
     }
 
     // Obsługa użycia podpowiedzi
-    private void handleHint(GameView gameView) {
+    private void handleHint(GameViewController gameViewController) {
         model.useHint();
-        updateGameState(gameView);
+        updateGameState(gameViewController);
     }
 
     // Aktualizacja stanu gry w widoku
-    private void updateGameState(GameView gameView) {
-        gameView.updateGameState(
+    private void updateGameState(GameViewController gameViewController) {
+        gameViewController.updateGameState(
                 model.getWordDisplay(),
                 model.getAttemptsLeft(),
                 model.getScore(),
@@ -106,13 +106,13 @@ public class HangmanController {
     }
 
     // Timer do odświeżania stanu gry
-    private void startDisplayTimer(GameView gameView) {
+    private void startDisplayTimer(GameViewController gameViewController) {
         displayTimer = new Timer();
         displayTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    updateGameState(gameView);
+                    updateGameState(gameViewController);
 
                     if (model.isGameOver() || model.isTimeUp()) {
                         stopDisplayTimer();

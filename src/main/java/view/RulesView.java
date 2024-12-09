@@ -58,7 +58,7 @@ public class RulesView {
     }
 
     public Scene createScene() {
-        Scene scene = new Scene(new VBox(15, titleLabel, scrollPane, backButton), 600, 400);
+        Scene scene = new Scene(new VBox(15, titleLabel, scrollPane, backButton), 1000, 500);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         return scene;
     }

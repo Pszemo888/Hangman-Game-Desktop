@@ -15,7 +15,6 @@ public class HangmanApp extends Application {
         stage.setTitle("Hangman Game");
 
         String filePath = "words.txt";
-
         FileLoader fileLoader = new FileLoader(filePath);
         List<String> words = fileLoader.loadWords();
 
